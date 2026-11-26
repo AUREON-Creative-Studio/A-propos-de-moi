@@ -168,6 +168,29 @@
     .about,.contact-wrap{grid-template-columns:1fr}
     #cursor-glow{display:none}
   }
+
+
+/* Disable text selection */
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Keep form fields usable */
+input,
+textarea {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
+    user-select: none;
+}
 </style>
 </head>
 <body>
@@ -516,6 +539,54 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     });
   });
 
+
+// ======================================
+// WEBSITE CONTENT PROTECTION
+// ======================================
+
+// Disable right-click
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+});
+
+// Disable text selection
+document.addEventListener("selectstart", function (e) {
+    e.preventDefault();
+});
+
+// Block copy, cut and paste
+document.addEventListener("copy", function (e) {
+    e.preventDefault();
+});
+
+document.addEventListener("cut", function (e) {
+    e.preventDefault();
+});
+
+document.addEventListener("paste", function (e) {
+    e.preventDefault();
+});
+
+// Block keyboard shortcuts
+document.addEventListener("keydown", function (e) {
+    const key = e.key.toLowerCase();
+
+    // Ctrl or Cmd shortcuts
+    if ((e.ctrlKey || e.metaKey) &&
+        ["a", "c", "v", "x", "s", "u", "p"].includes(key)) {
+        e.preventDefault();
+    }
+
+    // Block F12 and developer tools shortcuts
+    if (
+        key === "f12" ||
+        (e.ctrlKey && e.shiftKey && ["i", "j", "c"].includes(key))
+    ) {
+        e.preventDefault();
+    }
+});
+
 </script>
+<script src="security.js" defer></script>
 </body>
 </html>
